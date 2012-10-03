@@ -1,0 +1,1 @@
+Config script for EEPROM will be here eventually

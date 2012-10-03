@@ -1,0 +1,809 @@
+Archive member included because of file (symbol)
+
+c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_udivmodsi4.o)
+                              adc.o (__udivmodsi4)
+c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_exit.o)
+                              c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avrxmega7/crtx128a1.o (exit)
+c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_copy_data.o)
+                              adc.o (__do_copy_data)
+c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_clear_bss.o)
+                              adc.o (__do_clear_bss)
+
+Allocating common symbols
+Common symbol       size              file
+
+fp_button_time2     0x1               brain.o
+uart_itail          0x6               uart_buffer.o
+adc_count           0x1               adc.o
+uart_ibuffer        0xc00             uart_buffer.o
+lcd_console         0x358             brain.o
+STATE_power_channels
+                    0x1               brain.o
+adc_avg             0x2               adc.o
+fp_counter          0x1               brain.o
+uart_head           0x6               uart_buffer.o
+fp_button_time1     0x1               brain.o
+STATE_menu          0x1               brain.o
+STATE_power_output  0x1               brain.o
+lcd_last_touch_command
+                    0x1               brain.o
+fp_channel_mask     0x1               brain.o
+quad_state          0x1               brain.o
+_audio_volume       0x1               ui.o
+uart_buffer         0xc00             uart_buffer.o
+_audio_num_beeps    0x1               ui.o
+fp_counter2         0x1               brain.o
+fp_updown           0x1               brain.o
+uart_ihead          0x6               uart_buffer.o
+adc_max             0x2               adc.o
+quad_count          0x2               brain.o
+adc_min             0x2               adc.o
+lcd_touch_buffer    0x6               brain.o
+uart_tail           0x6               uart_buffer.o
+fp_button_time0     0x1               brain.o
+lcd_flow_type       0x1               brain.o
+lcd_flow_control    0x1               brain.o
+lcd_console_head    0x1               brain.o
+_audio_counter      0x1               ui.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00100000         xr
+data             0x00802000         0x0000ffa0         rw !x
+eeprom           0x00810000         0x00010000         rw !x
+fuse             0x00820000         0x00000400         rw !x
+lock             0x00830000         0x00000400         rw !x
+signature        0x00840000         0x00000400         rw !x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avrxmega7/crtx128a1.o
+LOAD adc.o
+LOAD brain.o
+LOAD fp.o
+LOAD lcd.o
+LOAD lcd_console.o
+LOAD pwr_main.o
+LOAD main.o
+LOAD quadrature.o
+LOAD thermal.o
+LOAD uart.o
+LOAD uart_buffer.o
+LOAD ui.o
+START GROUP
+LOAD c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avrxmega7\libm.a
+END GROUP
+LOAD c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a
+LOAD c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avrxmega7\libc.a
+LOAD c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000     0x4ac4
+ *(.vectors)
+ .vectors       0x00000000      0x1f4 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avrxmega7/crtx128a1.o
+                0x00000000                __vector_default
+                0x00000000                __vectors
+ *(.vectors)
+ *(.progmem.gcc*)
+ *(.progmem*)
+                0x000001f4                . = ALIGN (0x2)
+                0x000001f4                __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x000001f4        0x0 linker stubs
+ *(.trampolines*)
+                0x000001f4                __trampolines_end = .
+ *(.jumptables)
+ *(.jumptables*)
+ *(.lowtext)
+ *(.lowtext*)
+                0x000001f4                __ctors_start = .
+ *(.ctors)
+                0x000001f4                __ctors_end = .
+                0x000001f4                __dtors_start = .
+ *(.dtors)
+                0x000001f4                __dtors_end = .
+ SORT(*)(.ctors)
+ SORT(*)(.dtors)
+ *(.init0)
+ .init0         0x000001f4        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avrxmega7/crtx128a1.o
+                0x000001f4                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x000001f4       0x18 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avrxmega7/crtx128a1.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x0000020c       0x1a c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_copy_data.o)
+                0x0000020c                __do_copy_data
+ .init4         0x00000226       0x10 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_clear_bss.o)
+                0x00000226                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x00000236        0x8 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avrxmega7/crtx128a1.o
+ *(.init9)
+ *(.text)
+ .text          0x0000023e        0x4 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avrxmega7/crtx128a1.o
+                0x0000023e                __vector_38
+                0x0000023e                __vector_104
+                0x0000023e                __vector_22
+                0x0000023e                __vector_63
+                0x0000023e                __vector_67
+                0x0000023e                __vector_1
+                0x0000023e                __vector_119
+                0x0000023e                __vector_32
+                0x0000023e                __vector_75
+                0x0000023e                __vector_71
+                0x0000023e                __vector_91
+                0x0000023e                __vector_34
+                0x0000023e                __vector_62
+                0x0000023e                __vector_77
+                0x0000023e                __vector_102
+                0x0000023e                __vector_24
+                0x0000023e                __vector_12
+                0x0000023e                __vector_55
+                0x0000023e                __vector_69
+                0x0000023e                __vector_81
+                0x0000023e                __vector_90
+                0x0000023e                __vector_46
+                0x0000023e                __bad_interrupt
+                0x0000023e                __vector_72
+                0x0000023e                __vector_114
+                0x0000023e                __vector_6
+                0x0000023e                __vector_110
+                0x0000023e                __vector_31
+                0x0000023e                __vector_92
+                0x0000023e                __vector_35
+                0x0000023e                __vector_78
+                0x0000023e                __vector_74
+                0x0000023e                __vector_117
+                0x0000023e                __vector_39
+                0x0000023e                __vector_107
+                0x0000023e                __vector_3
+                0x0000023e                __vector_105
+                0x0000023e                __vector_98
+                0x0000023e                __vector_23
+                0x0000023e                __vector_68
+                0x0000023e                __vector_30
+                0x0000023e                __vector_73
+                0x0000023e                __vector_45
+                0x0000023e                __vector_93
+                0x0000023e                __vector_61
+                0x0000023e                __vector_11
+                0x0000023e                __vector_54
+                0x0000023e                __vector_99
+                0x0000023e                __vector_13
+                0x0000023e                __vector_17
+                0x0000023e                __vector_19
+                0x0000023e                __vector_56
+                0x0000023e                __vector_7
+                0x0000023e                __vector_49
+                0x0000023e                __vector_41
+                0x0000023e                __vector_86
+                0x0000023e                __vector_64
+                0x0000023e                __vector_88
+                0x0000023e                __vector_109
+                0x0000023e                __vector_43
+                0x0000023e                __vector_27
+                0x0000023e                __vector_5
+                0x0000023e                __vector_113
+                0x0000023e                __vector_33
+                0x0000023e                __vector_76
+                0x0000023e                __vector_115
+                0x0000023e                __vector_47
+                0x0000023e                __vector_52
+                0x0000023e                __vector_37
+                0x0000023e                __vector_95
+                0x0000023e                __vector_103
+                0x0000023e                __vector_96
+                0x0000023e                __vector_89
+                0x0000023e                __vector_108
+                0x0000023e                __vector_4
+                0x0000023e                __vector_44
+                0x0000023e                __vector_82
+                0x0000023e                __vector_106
+                0x0000023e                __vector_118
+                0x0000023e                __vector_51
+                0x0000023e                __vector_9
+                0x0000023e                __vector_2
+                0x0000023e                __vector_21
+                0x0000023e                __vector_15
+                0x0000023e                __vector_66
+                0x0000023e                __vector_36
+                0x0000023e                __vector_79
+                0x0000023e                __vector_58
+                0x0000023e                __vector_70
+                0x0000023e                __vector_83
+                0x0000023e                __vector_60
+                0x0000023e                __vector_121
+                0x0000023e                __vector_40
+                0x0000023e                __vector_85
+                0x0000023e                __vector_94
+                0x0000023e                __vector_8
+                0x0000023e                __vector_48
+                0x0000023e                __vector_124
+                0x0000023e                __vector_116
+                0x0000023e                __vector_112
+                0x0000023e                __vector_111
+                0x0000023e                __vector_80
+                0x0000023e                __vector_14
+                0x0000023e                __vector_84
+                0x0000023e                __vector_57
+                0x0000023e                __vector_53
+                0x0000023e                __vector_10
+                0x0000023e                __vector_50
+                0x0000023e                __vector_16
+                0x0000023e                __vector_59
+                0x0000023e                __vector_18
+                0x0000023e                __vector_97
+                0x0000023e                __vector_20
+                0x0000023e                __vector_42
+                0x0000023e                __vector_87
+                0x0000023e                __vector_65
+                0x0000023e                __vector_120
+ .text          0x00000242      0x1b0 adc.o
+                0x00000242                init_adc
+                0x00000258                adc_ch0
+                0x00000274                adc_ch1
+                0x00000290                adc_ch0_stats
+                0x00000340                adc_ch1_stats
+                0x000003f0                service_adc
+ .text          0x000003f2      0x266 brain.o
+                0x000003f2                brain_debug
+                0x0000043e                brain_power_reset
+                0x00000456                init_brain
+                0x00000462                brain_menu_output
+                0x00000472                brain_menu_control
+                0x00000482                brain_menu_console
+                0x00000492                brain_menu_update
+                0x00000548                brain_menu_change
+                0x000005c4                brain_power_master
+                0x000005fc                brain_power
+                0x00000656                service_brain
+ .text          0x00000658      0x2fe fp.o
+                0x00000658                init_fp
+                0x0000067a                fp_led_enable
+                0x000006d2                fp_led_disable
+                0x00000726                _fp_read_switches
+                0x00000742                _fp_switch_pressed
+                0x0000079e                _fp_switch_released
+                0x000007a0                _process_switch
+                0x000007d4                _fp_process_switches
+                0x0000082a                service_fp
+ .text          0x00000956      0x244 lcd.o
+                0x00000956                init_lcd
+                0x0000096a                lcd_command
+                0x00000994                _lcd_bubble
+                0x000009d2                _lcd_no_bubble
+                0x000009e4                lcd_d
+                0x00000a0c                lcd_c
+                0x00000a34                lcd_b
+                0x00000a5c                lcd_a
+                0x00000a84                lcd_macro
+                0x00000aae                lcd_end_macro
+                0x00000ac8                lcd_get_touch
+                0x00000ad4                lcd_set_touch
+                0x00000b28                service_lcd
+ .text          0x00000b9a      0x15a lcd_console.o
+                0x00000b9a                init_lcd_console
+                0x00000bbc                lcd_console_write
+                0x00000c94                service_lcd_console
+ .text          0x00000cf4       0xca pwr_main.o
+                0x00000cf4                init_pwr_main
+                0x00000d02                pwr_main_on
+                0x00000d6e                pwr_main_off
+                0x00000dbc                service_pwr_main
+ .text          0x00000dbe      0x140 main.o
+                0x00000dbe                init_rtos_clock_external
+                0x00000e00                init_rtos_clock_internal
+                0x00000e3c                main
+ .text          0x00000efe      0x21e quadrature.o
+                0x00000efe                init_quadrature
+                0x00000f4e                quad_up
+                0x00000f64                quad_down
+                0x00000f7a                __vector_100
+                0x0000104a                __vector_101
+                0x0000111a                service_quadrature
+ .text          0x0000111c       0x2c thermal.o
+                0x0000111c                init_thermal
+ .text          0x00001148      0x8fe uart.o
+                0x00001148                init_uart
+                0x00001258                uart_send_byte
+                0x00001264                uart_send_string
+                0x000012ba                uart_send_BIN4
+                0x00001524                uart_send_BIN8
+                0x00001552                uart_send_HEX4
+                0x0000161e                uart_send_HEX8
+                0x00001642                uart_send_HEX16b
+                0x00001660                uart_send_HEX16
+                0x00001680                uart_enq_BIN4
+                0x000018ea                uart_enq_BIN8
+                0x00001918                uart_enq_HEX4
+                0x000019e4                uart_enq_HEX8
+                0x00001a08                uart_enq_HEX16b
+                0x00001a26                uart_enq_HEX16
+ .text          0x00001a46     0x2e8c uart_buffer.o
+                0x00001a46                __vector_25
+                0x00001b22                __vector_28
+                0x00001bfe                uart_rxbuffer_enable
+                0x00001c08                uart_rxbuffer_disable
+                0x00001c12                uart_txbuffer_enable
+                0x00001c1c                uart_txbuffer_disable
+                0x00001c26                __vector_29
+                0x00001d6c                __vector_26
+                0x00001eb2                uart_transmit
+                0x0000208e                uart_transmit_lcd
+                0x00002596                __vector_123
+                0x00002a5c                uart_receive
+                0x00002bb6                uart_receive_lcd
+                0x0000311e                __vector_122
+                0x00003182                init_uart_obuffer
+                0x000031c4                uart_count
+                0x00003252                uart_enqueue_string
+                0x00003a70                uart_enqueue
+                0x000041c0                uart_dequeue
+                0x00004232                init_uart_ibuffer
+                0x00004274                init_uart_buffer
+                0x00004296                init_uart_buffers
+                0x000042b0                uart_icount
+                0x0000433e                uart_ienqueue
+                0x000043b0                uart_idequeue
+                0x00004422                service_uart_buffer
+ .text          0x000048d2      0x1aa ui.o
+                0x000048d2                led_on
+                0x0000490a                led_off
+                0x00004936                led_dim
+                0x00004968                led_toggle
+                0x0000499a                audio_volume
+                0x000049a6                init_ui
+                0x000049ea                _audio_beep
+                0x00004a0a                audio_beep
+                0x00004a22                service_audio
+ .text          0x00004a7c        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_udivmodsi4.o)
+ .text          0x00004a7c        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_exit.o)
+ .text          0x00004a7c        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_copy_data.o)
+ .text          0x00004a7c        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_clear_bss.o)
+                0x00004a7c                . = ALIGN (0x2)
+ *(.text.*)
+ .text.libgcc   0x00004a7c       0x44 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_udivmodsi4.o)
+                0x00004a7c                __udivmodsi4
+ .text.libgcc   0x00004ac0        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_exit.o)
+ .text.libgcc   0x00004ac0        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00004ac0        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_clear_bss.o)
+                0x00004ac0                . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x00004ac0        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_exit.o)
+                0x00004ac0                _exit
+                0x00004ac0                exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x00004ac0        0x4 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_exit.o)
+ *(.fini0)
+                0x00004ac4                _etext = .
+
+.data           0x00802000      0x11c load address 0x00004ac4
+                0x00802000                PROVIDE (__data_start, .)
+ *(.data)
+ .data          0x00802000        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avrxmega7/crtx128a1.o
+ .data          0x00802000        0x0 adc.o
+ .data          0x00802000       0x67 brain.o
+ .data          0x00802067        0x2 fp.o
+ .data          0x00802069       0xaf lcd.o
+ .data          0x00802118        0x0 lcd_console.o
+ .data          0x00802118        0x0 pwr_main.o
+ .data          0x00802118        0x0 main.o
+ .data          0x00802118        0x0 quadrature.o
+ .data          0x00802118        0x0 thermal.o
+ .data          0x00802118        0x0 uart.o
+ .data          0x00802118        0x2 uart_buffer.o
+ .data          0x0080211a        0x1 ui.o
+                0x0080211a                _audio_state
+ .data          0x0080211b        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_udivmodsi4.o)
+ .data          0x0080211b        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_exit.o)
+ .data          0x0080211b        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_copy_data.o)
+ .data          0x0080211b        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_clear_bss.o)
+ *(.data*)
+ *(.rodata)
+ *(.rodata*)
+ *(.gnu.linkonce.d*)
+                0x0080211c                . = ALIGN (0x2)
+ *fill*         0x0080211b        0x1 00
+                0x0080211c                _edata = .
+                0x0080211c                PROVIDE (__data_end, .)
+
+.bss            0x0080211c     0x1b95
+                0x0080211c                PROVIDE (__bss_start, .)
+ *(.bss)
+ .bss           0x0080211c        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avrxmega7/crtx128a1.o
+ .bss           0x0080211c        0x0 adc.o
+ .bss           0x0080211c        0x1 brain.o
+ .bss           0x0080211d        0x0 fp.o
+ .bss           0x0080211d        0x2 lcd.o
+ .bss           0x0080211f        0x1 lcd_console.o
+ .bss           0x00802120        0x0 pwr_main.o
+ .bss           0x00802120        0x0 main.o
+ .bss           0x00802120        0x0 quadrature.o
+ .bss           0x00802120        0x0 thermal.o
+ .bss           0x00802120        0x0 uart.o
+ .bss           0x00802120        0x0 uart_buffer.o
+ .bss           0x00802120        0x0 ui.o
+ .bss           0x00802120        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_udivmodsi4.o)
+ .bss           0x00802120        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_exit.o)
+ .bss           0x00802120        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_copy_data.o)
+ .bss           0x00802120        0x0 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_clear_bss.o)
+ *(.bss*)
+ *(COMMON)
+ COMMON         0x00802120        0x7 adc.o
+                0x00802120                adc_count
+                0x00802121                adc_avg
+                0x00802123                adc_max
+                0x00802125                adc_min
+ COMMON         0x00802127      0x36f brain.o
+                0x00802127                fp_button_time2
+                0x00802128                lcd_console
+                0x00802480                STATE_power_channels
+                0x00802481                fp_counter
+                0x00802482                fp_button_time1
+                0x00802483                STATE_menu
+                0x00802484                STATE_power_output
+                0x00802485                lcd_last_touch_command
+                0x00802486                fp_channel_mask
+                0x00802487                quad_state
+                0x00802488                fp_counter2
+                0x00802489                fp_updown
+                0x0080248a                quad_count
+                0x0080248c                lcd_touch_buffer
+                0x00802492                fp_button_time0
+                0x00802493                lcd_flow_type
+                0x00802494                lcd_flow_control
+                0x00802495                lcd_console_head
+ COMMON         0x00802496     0x1818 uart_buffer.o
+                0x00802496                uart_itail
+                0x0080249c                uart_ibuffer
+                0x0080309c                uart_head
+                0x008030a2                uart_buffer
+                0x00803ca2                uart_ihead
+                0x00803ca8                uart_tail
+ COMMON         0x00803cae        0x3 ui.o
+                0x00803cae                _audio_volume
+                0x00803caf                _audio_num_beeps
+                0x00803cb0                _audio_counter
+                0x00803cb1                PROVIDE (__bss_end, .)
+                0x00004ac4                __data_load_start = LOADADDR (.data)
+                0x00004be0                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x00803cb1        0x0
+                0x00803cb1                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                0x00803cb1                PROVIDE (__noinit_end, .)
+                0x00803cb1                _end = .
+                0x00803cb1                PROVIDE (__heap_start, .)
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.stab           0x00000000      0x714
+ *(.stab)
+ .stab          0x00000000      0x714 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avrxmega7/crtx128a1.o
+
+.stabstr        0x00000000       0x85
+ *(.stabstr)
+ .stabstr       0x00000000       0x85 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avrxmega7/crtx128a1.o
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment
+ *(.comment)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000      0x200
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x20 adc.o
+ .debug_aranges
+                0x00000020       0x20 brain.o
+ .debug_aranges
+                0x00000040       0x20 fp.o
+ .debug_aranges
+                0x00000060       0x20 lcd.o
+ .debug_aranges
+                0x00000080       0x20 lcd_console.o
+ .debug_aranges
+                0x000000a0       0x20 pwr_main.o
+ .debug_aranges
+                0x000000c0       0x20 main.o
+ .debug_aranges
+                0x000000e0       0x20 quadrature.o
+ .debug_aranges
+                0x00000100       0x20 thermal.o
+ .debug_aranges
+                0x00000120       0x20 uart.o
+ .debug_aranges
+                0x00000140       0x20 uart_buffer.o
+ .debug_aranges
+                0x00000160       0x20 ui.o
+ .debug_aranges
+                0x00000180       0x20 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_udivmodsi4.o)
+ .debug_aranges
+                0x000001a0       0x20 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_exit.o)
+ .debug_aranges
+                0x000001c0       0x20 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_copy_data.o)
+ .debug_aranges
+                0x000001e0       0x20 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_clear_bss.o)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x00000000     0x6655
+ *(.debug_info)
+ .debug_info    0x00000000      0x608 adc.o
+ .debug_info    0x00000608      0x3e1 brain.o
+ .debug_info    0x000009e9      0x526 fp.o
+ .debug_info    0x00000f0f      0x465 lcd.o
+ .debug_info    0x00001374      0x35e lcd_console.o
+ .debug_info    0x000016d2      0x2e6 pwr_main.o
+ .debug_info    0x000019b8      0xaf2 main.o
+ .debug_info    0x000024aa      0x2fb quadrature.o
+ .debug_info    0x000027a5      0x6d6 thermal.o
+ .debug_info    0x00002e7b      0x660 uart.o
+ .debug_info    0x000034db     0x2357 uart_buffer.o
+ .debug_info    0x00005832      0xa9b ui.o
+ .debug_info    0x000062cd       0xe2 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_udivmodsi4.o)
+ .debug_info    0x000063af       0xe2 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_exit.o)
+ .debug_info    0x00006491       0xe2 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_copy_data.o)
+ .debug_info    0x00006573       0xe2 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_clear_bss.o)
+ *(.gnu.linkonce.wi.*)
+
+.debug_abbrev   0x00000000     0x10fd
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x14a adc.o
+ .debug_abbrev  0x0000014a       0xfa brain.o
+ .debug_abbrev  0x00000244      0x187 fp.o
+ .debug_abbrev  0x000003cb      0x15e lcd.o
+ .debug_abbrev  0x00000529      0x13c lcd_console.o
+ .debug_abbrev  0x00000665      0x147 pwr_main.o
+ .debug_abbrev  0x000007ac      0x177 main.o
+ .debug_abbrev  0x00000923       0xd7 quadrature.o
+ .debug_abbrev  0x000009fa       0xc2 thermal.o
+ .debug_abbrev  0x00000abc      0x155 uart.o
+ .debug_abbrev  0x00000c11      0x2ee uart_buffer.o
+ .debug_abbrev  0x00000eff      0x1ae ui.o
+ .debug_abbrev  0x000010ad       0x14 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_udivmodsi4.o)
+ .debug_abbrev  0x000010c1       0x14 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_exit.o)
+ .debug_abbrev  0x000010d5       0x14 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_copy_data.o)
+ .debug_abbrev  0x000010e9       0x14 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_clear_bss.o)
+
+.debug_line     0x00000000     0x212e
+ *(.debug_line)
+ .debug_line    0x00000000      0x1c6 adc.o
+ .debug_line    0x000001c6      0x28e brain.o
+ .debug_line    0x00000454      0x21e fp.o
+ .debug_line    0x00000672      0x21b lcd.o
+ .debug_line    0x0000088d      0x1e1 lcd_console.o
+ .debug_line    0x00000a6e      0x198 pwr_main.o
+ .debug_line    0x00000c06      0x1ef main.o
+ .debug_line    0x00000df5      0x1e9 quadrature.o
+ .debug_line    0x00000fde       0xdb thermal.o
+ .debug_line    0x000010b9      0x2b0 uart.o
+ .debug_line    0x00001369      0x9c4 uart_buffer.o
+ .debug_line    0x00001d2d      0x1b0 ui.o
+ .debug_line    0x00001edd       0xa8 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_udivmodsi4.o)
+ .debug_line    0x00001f85       0x88 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_exit.o)
+ .debug_line    0x0000200d       0x93 c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_copy_data.o)
+ .debug_line    0x000020a0       0x8e c:/program files/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.0.65/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avrxmega7\libgcc.a(_clear_bss.o)
+
+.debug_frame    0x00000000      0xd90
+ *(.debug_frame)
+ .debug_frame   0x00000000       0xc4 adc.o
+ .debug_frame   0x000000c4       0xd4 brain.o
+ .debug_frame   0x00000198       0xb8 fp.o
+ .debug_frame   0x00000250      0x11c lcd.o
+ .debug_frame   0x0000036c       0x70 lcd_console.o
+ .debug_frame   0x000003dc       0x54 pwr_main.o
+ .debug_frame   0x00000430       0x44 main.o
+ .debug_frame   0x00000474       0xb4 quadrature.o
+ .debug_frame   0x00000528       0x24 thermal.o
+ .debug_frame   0x0000054c      0x1c4 uart.o
+ .debug_frame   0x00000710      0x5d0 uart_buffer.o
+ .debug_frame   0x00000ce0       0xb0 ui.o
+
+.debug_str      0x00000000     0x1075
+ *(.debug_str)
+ .debug_str     0x00000000      0x2d6 adc.o
+                                0x325 (size before relaxing)
+ .debug_str     0x000002d6      0x21a brain.o
+                                0x30a (size before relaxing)
+ .debug_str     0x000004f0      0x169 fp.o
+                                0x334 (size before relaxing)
+ .debug_str     0x00000659       0xc1 lcd.o
+                                0x2c9 (size before relaxing)
+ .debug_str     0x0000071a       0x83 lcd_console.o
+                                0x2a4 (size before relaxing)
+ .debug_str     0x0000079d       0x48 pwr_main.o
+                                0x222 (size before relaxing)
+ .debug_str     0x000007e5      0x3b2 main.o
+                                0x6bf (size before relaxing)
+ .debug_str     0x00000b97       0x61 quadrature.o
+                                0x257 (size before relaxing)
+ .debug_str     0x00000bf8       0x65 thermal.o
+                                0x439 (size before relaxing)
+ .debug_str     0x00000c5d      0x10c uart.o
+                                0x320 (size before relaxing)
+ .debug_str     0x00000d69      0x218 uart_buffer.o
+                                0x3ba (size before relaxing)
+ .debug_str     0x00000f81       0xf4 ui.o
+                                0x50c (size before relaxing)
+
+.debug_loc      0x00000000     0x39d5
+ *(.debug_loc)
+ .debug_loc     0x00000000      0x246 adc.o
+ .debug_loc     0x00000246       0x80 brain.o
+ .debug_loc     0x000002c6      0x173 fp.o
+ .debug_loc     0x00000439      0x23e lcd.o
+ .debug_loc     0x00000677      0x1e8 lcd_console.o
+ .debug_loc     0x0000085f       0xab pwr_main.o
+ .debug_loc     0x0000090a       0x55 main.o
+ .debug_loc     0x0000095f       0xc6 quadrature.o
+ .debug_loc     0x00000a25      0xb4d uart.o
+ .debug_loc     0x00001572     0x2344 uart_buffer.o
+ .debug_loc     0x000038b6      0x11f ui.o
+
+.debug_macinfo
+ *(.debug_macinfo)
+OUTPUT(SciPSU4-Firmware.elf elf32-avr)
+LOAD linker stubs
+
+.debug_ranges   0x00000000      0x760
+ .debug_ranges  0x00000000       0x30 lcd_console.o
+ .debug_ranges  0x00000030      0x730 uart_buffer.o
