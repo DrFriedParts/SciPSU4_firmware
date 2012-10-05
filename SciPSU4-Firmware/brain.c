@@ -11,7 +11,9 @@
 #include "stdlib.h" //itoa -- integer to ascii conversion
 #include "lcd.h"
 #include "lcd_console.h"
+#include "lcd_touch.h"
 #include "quadrature.h"
+#include "adc.h"
 
 // Integration Controller -- This is where all the services are wired together
 
@@ -21,7 +23,7 @@
 
 void init_brain(){
 	brain_power_reset();
-	STATE_menu = MENU_OUTPUT;
+	STATE_menu = MENU_STARTUP;
 }
 	
 //#############################################################
@@ -31,6 +33,7 @@ void init_brain(){
 //Used for testing stuff -- usually via a button so runs on demand
 void brain_debug(){
 	static uint8_t c = 0;
+	char volts[12];
 	//uart_enqueue_string(&uctrl, "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789----100---012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789---<200---012345678901234567890123456789---250>---ABCDEFGHIJ");
 
 	//Channel values (from ADC)
@@ -38,6 +41,8 @@ void brain_debug(){
 		c++;
 		if(c%2){lcd_console_write("Hello World...");}
 		else{lcd_console_write("No! I refuse!");}
+		adc_data(8, VOLTAGE, volts);
+		lcd_console_write(volts);
 	}
 	else {		
 		lcd_command("75 1 1234");
@@ -97,7 +102,11 @@ void brain_power_master(){
 	brain_menu_update();
 }	
 
-void brain_menu_change(uint8_t which_way){
+void brain_button_pressed(){
+	if (STATE_menu == MENU_STARTUP){brain_menu_change(0);}
+}
+
+void brain_menu_load(uint8_t which_menu){
 	//Announce!
 	audio_beep(1, 100);
 	
@@ -107,33 +116,101 @@ void brain_menu_change(uint8_t which_way){
 	lcd_last_touch_command = LCD_TOUCH_NONE; //clear out any latent touch actions
 	lcd_command(""); //send \r to flush any existing partially transmitted commands
 	
-	//Change menu
-	switch (STATE_menu){
+	switch (which_menu){
+		case MENU_STARTUP:
+			brain_menu_output();
+			break;
 		case MENU_OUTPUT:
-			if (which_way == QUAD_DOWN){brain_menu_control();}
-			if (which_way == QUAD_UP){brain_menu_console();}
+			brain_menu_output();
 			break;
 		case MENU_CONTROL:
-			if (which_way == QUAD_DOWN){brain_menu_console();}
-			if (which_way == QUAD_UP){brain_menu_output();}
+			brain_menu_control();
 			break;
 		case MENU_CONSOLE:
-			if (which_way == QUAD_DOWN){brain_menu_output();}
-			if (which_way == QUAD_UP){brain_menu_control();}
+			brain_menu_console();
 			break;
 	}
 	brain_menu_update(); //Update channel indicators
 }
 
+void brain_menu_change(uint8_t which_way){
+	//Change menu
+	switch (STATE_menu){
+		case MENU_STARTUP:
+			brain_menu_load(MENU_OUTPUT);
+			break;
+		case MENU_OUTPUT:
+			if (which_way == QUAD_DOWN){brain_menu_load(MENU_CONTROL);}
+			if (which_way == QUAD_UP){brain_menu_load(MENU_CONSOLE);}
+			break;
+		case MENU_CONTROL:
+			if (which_way == QUAD_DOWN){brain_menu_load(MENU_CONSOLE);}
+			if (which_way == QUAD_UP){brain_menu_load(MENU_OUTPUT);}
+			break;
+		case MENU_CONSOLE:
+			if (which_way == QUAD_DOWN){brain_menu_load(MENU_OUTPUT);}
+			if (which_way == QUAD_UP){brain_menu_load(MENU_CONTROL);}
+			break;
+	}	
+}
+
+//=================
+//== OUTPUT Menu
 void brain_menu_output(){
 	STATE_menu = MENU_OUTPUT;
 	lcd_macro("RUN M_OUT");
 }
 
+void brain_menu_output_detail(uint8_t which_detail){
+	switch(which_detail){
+		case LCD_TOUCH_OPEN_DETAIL_AB:
+			STATE_menu = MENU_DETAIL_AB;
+			lcd_macro("RUN M_DETAIL");
+			lcd_command("88 58 A");
+			lcd_command("88 59 B");
+			break;
+		case LCD_TOUCH_OPEN_DETAIL_CD:
+			STATE_menu = MENU_DETAIL_CD;
+			lcd_macro("RUN M_DETAIL");
+			lcd_command("88 58 C");
+			lcd_command("88 59 D");
+			break;
+	}
+}
+
+
+//=================
+//== CONTROL Menu
+
 void brain_menu_control(){
 	STATE_menu = MENU_CONTROL;
 	lcd_macro("RUN M_CTRL");
 }
+
+void brain_menu_control_dial(uint8_t which_channel){
+	lcd_macro("RUN M_DIAL");
+	switch(which_channel){
+		case LCD_TOUCH_ROW_A:
+			STATE_menu = MENU_DIAL_A;
+			lcd_command("88 90 A");
+			break;
+		case LCD_TOUCH_ROW_B:
+			STATE_menu = MENU_DIAL_B;
+			lcd_command("88 90 B");
+			break;
+		case LCD_TOUCH_ROW_C:
+			STATE_menu = MENU_DIAL_C;
+			lcd_command("88 90 C");
+			break;
+		case LCD_TOUCH_ROW_D:
+			STATE_menu = MENU_DIAL_D;
+			lcd_command("88 90 D");
+			break;
+	}
+}
+
+//=================
+//== CONSOLE Menu
 
 void brain_menu_console(){
 	STATE_menu = MENU_CONSOLE;
@@ -174,5 +251,35 @@ void brain_menu_update(){
 //#############################################################
 
 void service_brain(){
-
+	static uint16_t menu_update_counter = 0;
+	char meter_value[12];
+	//Decide when to update Power output measurements
+	menu_update_counter++;
+	if (menu_update_counter >= 500){
+		menu_update_counter = 0;
+		switch(STATE_menu){
+			case MENU_OUTPUT:
+				adc_data(0, VOLTAGE, meter_value); //A V+
+				lcd_update("75 1", meter_value);
+				adc_data(1, CURRENT_HI_RES, meter_value); //A I+
+				lcd_update("75 11", meter_value);
+				adc_data(4, VOLTAGE, meter_value); //B V+
+				lcd_update("75 2", meter_value);
+				adc_data(5, CURRENT_HI_RES, meter_value); //B I+
+				lcd_update("75 21", meter_value);
+				adc_data(8, VOLTAGE, meter_value); //C V+
+				lcd_update("75 3", meter_value);
+				adc_data(9, CURRENT_HI_RES, meter_value); //C I+
+				lcd_update("75 31", meter_value);
+				adc_data(12, VOLTAGE, meter_value); //D V+
+				lcd_update("75 4", meter_value);
+				adc_data(13, CURRENT_HI_RES, meter_value); //D I+
+				lcd_update("75 41", meter_value);
+				break;
+			case MENU_CONTROL:
+				break;
+		}
+		
+	}
+	
 }

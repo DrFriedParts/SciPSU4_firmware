@@ -7,6 +7,7 @@
 		
 		uint8_t lcd_console_head;
 		char lcd_console[LCD_CONSOLE_NUM_ROWS][LCD_CONSOLE_NUM_COLS+7];
+		boolean lcd_buffer_dirty[LCD_CONSOLE_NUM_ROWS];
 	
 	//FUNCTIONS
 		void init_lcd_console();

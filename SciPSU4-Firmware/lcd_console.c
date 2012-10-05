@@ -18,7 +18,11 @@
 
 void init_lcd_console(){
 	//ensure that string termination is present in the beginning for blank lines
-	for(uint8_t i=0;i<LCD_CONSOLE_NUM_ROWS;i++){lcd_console[i][0] = 0;}
+	for(uint8_t i=0;i<LCD_CONSOLE_NUM_ROWS;i++){
+		lcd_console[i][0] = 0;
+		lcd_buffer_dirty[i] = false;
+	}
+	lcd_console_head = 0;
 }
 
 //#############################################################
@@ -45,6 +49,7 @@ void lcd_console_write(char* theString){
 		}
 		line_buffer[6+i] = theString[i];
 	}
+	lcd_buffer_dirty[lcd_console_head] = true;
 	//Move row pointer
 	lcd_console_head++;
 	if (lcd_console_head >= LCD_CONSOLE_NUM_ROWS){lcd_console_head = 0;}
@@ -62,7 +67,10 @@ void service_lcd_console(){
 	uint8_t num_rows_output = 0;
 	if (STATE_menu != MENU_CONSOLE){return;}
 	while((uart_count(&ulcd) < 512)&&(num_rows_output<LCD_CONSOLE_NUM_ROWS)){
-		lcd_command(lcd_console[next_row_to_output]);
+		if(lcd_buffer_dirty[next_row_to_output]){
+			lcd_command(lcd_console[next_row_to_output]);
+			lcd_buffer_dirty[next_row_to_output] = false;
+		}
 		next_row_to_output++; num_rows_output++;
 		if(next_row_to_output>=LCD_CONSOLE_NUM_ROWS){next_row_to_output=0;}
 	}

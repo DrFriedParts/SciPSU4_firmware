@@ -17,6 +17,8 @@
 #include "uart_buffer.h"
 #include "pwr_main.h"
 #include "lcd.h"
+#include "lcd_console.h"
+#include "lcd_touch.h"
 #include "quadrature.h"
 
 int init_rtos_clock_external(void){
@@ -62,6 +64,8 @@ int init_rtos_clock_internal(void){
 	return 0;
 }
 
+
+
 int main(void){
 	//[BLINK ALIVE]
 	uint8_t blah;
@@ -78,6 +82,7 @@ int main(void){
 	//[LCD]
 	init_lcd();
 	init_lcd_console();
+	init_lcd_touch();
 
 	//[UARTs]
 	init_uart(&uctrl, BAUD_115200);
@@ -110,27 +115,30 @@ int main(void){
 	led_off(LED_0);
 	led_off(LED_1);
 	audio_beep(2, 100);
+	PORTE.DIRSET = B8(00000011); //PE0, PE1 to output pin for loop timer
 
 	while(1){
+		PORTE.OUTSET = 0x02; //Set PE1 on start of loop and lower after work is done.
 		//Blink alive
 		led_dim(LED_0, blah);	
 		blah += updown;
 		if ((blah == 255) || (blah == 0)) {
 			updown = -1 * updown;
 		}
-		
-		//TESTING
-		
+		PORTE.OUTTGL = 0x01; //wiggle pin to indicate loop timing
 		
 		//Call services
 		service_audio();
 		service_fp();
+		service_adc();
 		service_brain();	
 		service_uart_buffer();
 		service_lcd();
 		service_lcd_console();
+		service_lcd_touch();
 		
 		//Wait out RTOS loop
+		PORTE.OUTCLR = 0x02; //Indicate work for this cycle has finished on PE1
 		while((TCC0.INTFLAGS & _BV(0)) != 0x01); //Wait for the loop time to expire
 		TCC0.INTFLAGS = 0x01; //Clear the interrupt flag
 	}//while

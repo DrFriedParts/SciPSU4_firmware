@@ -8,6 +8,7 @@
 #include "uart.h"
 #include "uart_buffer.h"
 #include "lcd.h"
+
 #include <stddef.h>
 
 //Handles EarthLCD ezLCD301 hardware
@@ -19,7 +20,6 @@
 void init_lcd(){
 	lcd_flow_control = LCD_BUSY; //Wait for LCD to bootup -- queue all commands prior to start
 	lcd_flow_type = LCD_COMMAND;
-	lcd_last_touch_command = LCD_TOUCH_NONE;
 }
 
 //#############################################################
@@ -110,33 +110,16 @@ void lcd_macro(char* theCommand){
 	uart_enqueue(&ulcd, 0x0D);
 }	
 
-
-
-//#############################################################
-//## TOUCHSCREEN COMMAND BUFFER
-//#############################################################
-
-boolean lcd_end_macro(){
-	if ((lcd_touch_buffer[0]==0x7E)&&(lcd_touch_buffer[1]==0x27)){return true;}
-	else {return false;}
+void lcd_update(char* theCommand, char* theValue){
+	uart_enqueue(&ulcd, LCD_COMMAND);
+	uart_enqueue_string(&ulcd, theCommand);
+	uart_enqueue(&ulcd, ' ');
+	uart_enqueue_string(&ulcd, theValue);
+	uart_enqueue(&ulcd, 0x0D); //command terminator
 }
 
-/// Returns the code for the last thing touched by user
-/** Clears the touch history on read*/
-uint8_t lcd_get_touch(){
-	uint8_t last = lcd_last_touch_command;
-	lcd_last_touch_command = LCD_TOUCH_NONE;
-	return last;
-}
-	
-void lcd_set_touch(uint8_t latest){
-	//Rotate buffer
-	for (uint8_t i=0;i<LCD_TOUCH_BUFFER_LEN-1;i++){lcd_touch_buffer[i+1] = lcd_touch_buffer[i];}
-	//Add to front (0-index)
-	lcd_touch_buffer[0] = latest;
-	//Analyze (remember reverse order)
-	if ((lcd_touch_buffer[0]==' ')&&(lcd_touch_buffer[1]==' ')&&(lcd_touch_buffer[2]==' ')&&(lcd_touch_buffer[3]==' ')){lcd_last_touch_command=LCD_TOUCH_NONE;return;}
-}
+
+
 
 //#############################################################
 //## SERVICE ROUTINE

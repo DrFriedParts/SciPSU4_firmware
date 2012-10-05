@@ -40,6 +40,7 @@ C_SRCS +=  \
 ../fp.c \
 ../lcd.c \
 ../lcd_console.c \
+../lcd_touch.c \
 ../pwr_main.c \
 ../main.c \
 ../quadrature.c \
@@ -61,6 +62,7 @@ brain.o \
 fp.o \
 lcd.o \
 lcd_console.o \
+lcd_touch.o \
 pwr_main.o \
 main.o \
 quadrature.o \
@@ -76,6 +78,7 @@ brain.o \
 fp.o \
 lcd.o \
 lcd_console.o \
+lcd_touch.o \
 pwr_main.o \
 main.o \
 quadrature.o \
@@ -91,6 +94,7 @@ brain.d \
 fp.d \
 lcd.d \
 lcd_console.d \
+lcd_touch.d \
 pwr_main.d \
 main.d \
 quadrature.d \
@@ -106,6 +110,7 @@ brain.d \
 fp.d \
 lcd.d \
 lcd_console.d \
+lcd_touch.d \
 pwr_main.d \
 main.d \
 quadrature.d \
@@ -124,6 +129,8 @@ ADDITIONAL_DEPENDENCIES:=
 OUTPUT_FILE_DEP:= ./makedep.mk
 
 # AVR32/GNU C Compiler
+
+
 
 
 

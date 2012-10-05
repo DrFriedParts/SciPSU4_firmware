@@ -14,21 +14,9 @@
 		#define LCD_COMMAND 0xFA
 		#define LCD_MACRO 0xFE
 		
-		boolean lcd_end_macro();
-		
-	//TOUCH COMMANDS
-		#define LCD_TOUCH_BUFFER_LEN 6
-		volatile uint8_t lcd_touch_buffer[LCD_TOUCH_BUFFER_LEN];
-		volatile uint8_t lcd_last_touch_command;
-		#define LCD_TOUCH_NONE 21
-		#define LCD_TOUCH_ROW_A 22
-		#define LCD_TOUCH_ROW_B 23
-		#define LCD_TOUCH_ROW_C 24
-		#define LCD_TOUCH_ROW_D 25
 		
 		
-		uint8_t lcd_get_touch();
-		void lcd_set_touch(uint8_t latest);
+	
 		
 	//UART BUFFER STATE		
 		volatile uint8_t lcd_flow_control;
@@ -44,5 +32,6 @@
 		void init_lcd();
 		void lcd_command(char* theCommand);
 		void lcd_macro(char* theCommand);
+		void lcd_update(char* theCommand, char* theValue);
 		void service_lcd();
 #endif

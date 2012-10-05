@@ -12,6 +12,8 @@ lcd.c
 
 lcd_console.c
 
+lcd_touch.c
+
 pwr_main.c
 
 main.c

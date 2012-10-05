@@ -6,6 +6,7 @@
 #include "ui.h" //for debugging
 #include "string.h"
 #include "lcd.h" //TODO: remove this dependency
+#include "lcd_touch.h" //TODO: remove this dependency
 
 //XMEGA uart DATA BUFFER
 //--Due to the XMEGA architecture, it is not as easy to write a port-agnostic
@@ -120,13 +121,10 @@ void inline uart_transmit_lcd(USART_t* port){
 			case LCD_COMMAND:
 			case LCD_MACRO:
 				//Header byte just describes payload -- do not send to LCD
-				uart_enqueue(&uctrl, '+'); //echo to data port -- xxx
-				uart_enqueue(&uctrl, toSend); //echo to data port -- xxx
 				lcd_flow_type = toSend;
 				break;
 			default:
 				//Payload bytes -- send to LCD
-				uart_enqueue(&uctrl, toSend); //echo to data port -- xxx
 				if (toSend == 0x0D) {lcd_flow_control = LCD_BUSY;}
 				port->DATA = toSend;
 				break;
@@ -159,7 +157,7 @@ void inline uart_receive_lcd(USART_t* port){
 		if (incomingByte == 0x0D){
 			switch(lcd_flow_type){				
 				case LCD_MACRO:
-					uart_enqueue(&udata,"+");uart_enqueue(&udata,lcd_touch_buffer[0]);uart_enqueue(&udata,lcd_touch_buffer[1]);
+					uart_enqueue(&udata,'+');uart_enqueue(&udata,lcd_touch_buffer[0]);uart_enqueue(&udata,lcd_touch_buffer[1]);
 					if (lcd_end_macro()){ //look for '~ macro terminator sequence
 						lcd_flow_control = LCD_DONE_MACRO;
 					}

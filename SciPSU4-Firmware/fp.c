@@ -100,6 +100,7 @@ void _fp_read_switches(){
 //Button was pressed
 void _fp_switch_pressed(uint8_t which){
 	audio_beep(1, 10);
+	brain_button_pressed();
 	switch(which){
 		case FP_SWITCH_A:
 			brain_power(CHANNEL_A);			
@@ -166,11 +167,11 @@ void _fp_process_switches(){
 //## ROTARY CONTROL
 //#############################################################
 
-inline void _fp_process_rotary(){
+void _fp_process_rotary(){
 	static int16_t blanking_counter = -1;
 	
 	//Software blank rotary dial in menu navigation mode
-	if (STATE_menu != MENU_DIAL){
+	if ((STATE_menu == MENU_OUTPUT) || (STATE_menu == MENU_CONTROL) || (STATE_menu == MENU_CONSOLE)) {
 		if (blanking_counter >= 0){
 			blanking_counter++;
 			quad_up(); quad_down(); //clear state changes during blanking period
