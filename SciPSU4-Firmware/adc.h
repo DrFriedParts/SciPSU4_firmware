@@ -20,21 +20,27 @@
 		//Undo the input divider (prescaler)
 		#define VOLTAGE_DESCALE_FACTOR 13.12
 		
+	//VOLTAGE (NEGATIVE) MEASUREMENT
+		#define VOLTAGE_NEG_OFFSET 180
+		//#define VOLTAGE_NEG_OFFSET 512
+	
 	//CURRENT MEASUREMENT
 		//0.020 ohm sense resistor
 		#define CODE_TO_AMPS 0.000592
 		uint16_t adc_current_offset[ADC_NUM_CHANNELS/2];
 		
 	//MEASUREMENT TYPES
-		#define VOLTAGE 103
-		#define CURRENT_LO_RES 104
-		#define CURRENT_HI_RES 105
+		#define VOLTAGE_POS 103
+		#define VOLTAGE_NEG 104
+		#define CURRENT_LO_RES 105
+		#define CURRENT_HI_RES 106
 	
 	//FUNCTIONS
 		void init_adc();
 		uint8_t adc_read_cal_byte( uint8_t index );
 		void adc_bank_select(uint8_t which);
 		void adc_convert();
+		void adc_ftoa(float x, uint16_t scaler, char* result);
 		void adc_data(uint8_t channel_num, uint8_t measurement_type, char* result);
 		void service_adc();
 #endif

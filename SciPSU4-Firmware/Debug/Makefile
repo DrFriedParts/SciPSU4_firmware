@@ -37,10 +37,12 @@ SUBDIRS :=
 C_SRCS +=  \
 ../adc.c \
 ../brain.c \
+../eeprom.c \
 ../fp.c \
 ../lcd.c \
 ../lcd_console.c \
 ../lcd_touch.c \
+../pwr_adjust.c \
 ../pwr_main.c \
 ../main.c \
 ../quadrature.c \
@@ -59,10 +61,12 @@ ASM_SRCS +=
 OBJS +=  \
 adc.o \
 brain.o \
+eeprom.o \
 fp.o \
 lcd.o \
 lcd_console.o \
 lcd_touch.o \
+pwr_adjust.o \
 pwr_main.o \
 main.o \
 quadrature.o \
@@ -75,10 +79,12 @@ ui.o
 OBJS_AS_ARGS +=  \
 adc.o \
 brain.o \
+eeprom.o \
 fp.o \
 lcd.o \
 lcd_console.o \
 lcd_touch.o \
+pwr_adjust.o \
 pwr_main.o \
 main.o \
 quadrature.o \
@@ -91,10 +97,12 @@ ui.o
 C_DEPS +=  \
 adc.d \
 brain.d \
+eeprom.d \
 fp.d \
 lcd.d \
 lcd_console.d \
 lcd_touch.d \
+pwr_adjust.d \
 pwr_main.d \
 main.d \
 quadrature.d \
@@ -107,10 +115,12 @@ ui.d
 C_DEPS_AS_ARGS +=  \
 adc.d \
 brain.d \
+eeprom.d \
 fp.d \
 lcd.d \
 lcd_console.d \
 lcd_touch.d \
+pwr_adjust.d \
 pwr_main.d \
 main.d \
 quadrature.d \
@@ -129,6 +139,10 @@ ADDITIONAL_DEPENDENCIES:=
 OUTPUT_FILE_DEP:= ./makedep.mk
 
 # AVR32/GNU C Compiler
+
+
+
+
 
 
 

@@ -106,10 +106,9 @@ void adc_convert(){
 //#############################################################
 
 //Float-to-ASCII: uses scaler to shift position, does not include fractional component, null-terminates result, handles pos & neg numbers
-void ftoa(float x, uint16_t scaler, char* result){
+void adc_ftoa(float x, uint16_t scaler, char* result){
 	x = x * scaler;
 	utoa((int)x, result, 10);
-	lcd_console_write(result);
 }
 
 ///result = char[6] = 15324\0 --> 15.324 V or A (don't forget string terminator byte)
@@ -128,12 +127,16 @@ void adc_data(uint8_t channel_num, uint8_t measurement_type, char* result){
 		
 	//Offset
 		switch (measurement_type){
-			case VOLTAGE:
+			case VOLTAGE_POS:
 				if(summation<CODE_ZERO){summation = 0;}
 				else{summation -= CODE_ZERO;}
 				break;
+			case VOLTAGE_NEG:
+				if(summation<VOLTAGE_NEG_OFFSET){summation = 0;}
+				else{summation -= VOLTAGE_NEG_OFFSET;}
+				break;
 			case CURRENT_HI_RES:
-				current_offset = adc_current_offset[(channel_num-1)>>2];
+				current_offset = adc_current_offset[(channel_num-1)>>1];
 				if(summation<current_offset){summation=0;}
 				else{summation -= current_offset;}
 				break;
@@ -144,12 +147,17 @@ void adc_data(uint8_t channel_num, uint8_t measurement_type, char* result){
 		
 	//Format & Return
 		switch (measurement_type){
-			case VOLTAGE:
+			case VOLTAGE_POS:
 				voltage = (float)summation * CODE_TO_VOLTS * VOLTAGE_DESCALE_FACTOR;
-				ftoa(voltage, 100, result);
+				adc_ftoa(voltage, 100, result);
+				return;
+			case VOLTAGE_NEG:
+				voltage = (float)summation * CODE_TO_VOLTS * VOLTAGE_DESCALE_FACTOR;
+				if (voltage < 2.2) voltage = 0; //blank anything inside the amp offset (can't actually offset this because it adds huge error to the linear fit)
+				adc_ftoa(voltage, 100, result);
 				return;
 			case CURRENT_HI_RES:
-				ftoa((float)summation * CODE_TO_AMPS, 1000, result);
+				adc_ftoa((float)summation * CODE_TO_AMPS, 1000, result);
 				return;
 			case CURRENT_LO_RES:
 				//TODO: add scaler for the low-res mode
@@ -222,8 +230,8 @@ void service_adc(){
 		
 		//Auto-calibrate Current Offsets (when output is disabled)
 		if(STATE_power_output == DISABLE){
-			for(uint8_t i=0;i<(ADC_NUM_CHANNELS>>2);i++){
-				adc_current_offset[i] = adc_max((i<<2)+1);
+			for(uint8_t i=0;i<(ADC_NUM_CHANNELS>>1);i++){
+				adc_current_offset[i] = adc_max((i<<1)+1);
 			}			
 		}
 	}

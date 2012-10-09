@@ -20,6 +20,7 @@
 #include "lcd_console.h"
 #include "lcd_touch.h"
 #include "quadrature.h"
+#include "eeprom.h"
 
 int init_rtos_clock_external(void){
 	//Boot up and configure oscillator
@@ -95,11 +96,14 @@ int main(void){
 
 	//[POWER PATH]
 	init_pwr_main();
-	//init_pwr_adj();
+	init_pwr_adjust();
 
 	//[BRAIN]
 	init_brain();
 	
+	//[EEPROM] -- do this last
+	init_eeprom();
+		
 	//[Realtime Loop Timer]
 	//Use PortC's T/C0
 	TCC0.CTRLA = 0x07; //Start the timer; Div1024 operation = 32M/1024 = 31250
@@ -136,6 +140,7 @@ int main(void){
 		service_lcd();
 		service_lcd_console();
 		service_lcd_touch();
+		service_pwr_adjust();
 		
 		//Wait out RTOS loop
 		PORTE.OUTCLR = 0x02; //Indicate work for this cycle has finished on PE1

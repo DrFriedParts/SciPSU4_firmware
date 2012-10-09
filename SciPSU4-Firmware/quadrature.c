@@ -50,7 +50,7 @@ return false;
 //#############################################################
 
 ///Interrupt Service Routine (ISR) for quadrature encoder Channel A (PORTK Int0; PK6)
-SIGNAL(PORTK_INT0_vect){
+ISR(PORTK_INT0_vect){
 	if (PORTK.PIN6CTRL == FALLING_EDGE){
 		//Detected FALLING edge on channel A
 		if ((PORTK.IN & _BV(7)) == 0){
@@ -85,7 +85,7 @@ SIGNAL(PORTK_INT0_vect){
 }
 
 ///Interrupt Service Routine (ISR) for quadrature encoder Channel B (PORTK Int1; PK7)
-SIGNAL(PORTK_INT1_vect){
+ISR(PORTK_INT1_vect){
 	if (PORTK.PIN7CTRL == FALLING_EDGE){
 		//Detected FALLING edge on channel A
 		if ((PORTK.IN & _BV(6)) == 0){

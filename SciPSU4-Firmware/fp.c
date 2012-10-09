@@ -5,6 +5,9 @@
 #include "fp.h"
 #include "ui.h" //access to the "Master" LED is provided in ui.h because it shares a timer with internal UI components (motherboard-mounted LED's and Audio)
 #include "quadrature.h"
+#include "eeprom.h"
+#include "uart_buffer.h"
+#include "uart.h"
 
 //Handles all FRONT PANEL UI hardware (buttons, switches, and rotary controls)
 //LCD is handled separately
@@ -36,6 +39,12 @@ void init_fp(){
 	//Switches
 	//	SciPSU FP switches have hardware pull-up and hardware debounce
 	PORTK.DIRCLR = B8(00111111); //This is the default condition, but just to be safe
+	fp_rot_status = RELEASED; fp_master_status = RELEASED;
+	
+	//Button state (open switch = 1, ergo...)
+	fp_button_time0 = 0xFF;
+	fp_button_time1 = 0xFF;
+	fp_button_time2 = 0xFF;
 }
 
 //#############################################################
@@ -115,10 +124,12 @@ void _fp_switch_pressed(uint8_t which){
 			brain_power(CHANNEL_D);
 			break;
 		case FP_SWITCH_M:
-			brain_power_master();
+			fp_press_counter = 0;
+			fp_master_status = PRESSED;
 			break;
 		case FP_SWITCH_R:
-			brain_debug(); //xxx
+			fp_press_counter = 0;
+			fp_rot_status = PRESSED;
 			break;		
 	}
 }
@@ -128,30 +139,64 @@ void _fp_switch_released(uint8_t which){
 	switch(which){
 		case FP_SWITCH_A:
 			break;
-		case FP_SWITCH_B:
+		case FP_SWITCH_B:			
 			break;
 		case FP_SWITCH_C:
 			break;
 		case FP_SWITCH_D:
 			break;
 		case FP_SWITCH_M:
+			fp_master_status = RELEASED;
+			if (fp_press_counter > EEPROM_HOLD_TO_SAVE_TIME){
+				//Reboot LCD logic
+				lcd_reboot();
+				fp_press_counter = 0;
+			}
+			else {
+				brain_power_master();
+			}
 			break;
 		case FP_SWITCH_R:
+			fp_rot_status = RELEASED;
+			//Write to disk logic (save to non-volatile memory)
+			if	((STATE_menu == MENU_CONTROL) && (fp_press_counter>EEPROM_HOLD_TO_SAVE_TIME)){
+				eeprom_save(); 
+				fp_press_counter = 0;
+			}
 			break;
 	}
 }
 
 void _process_switch(uint8_t current, uint8_t change, uint8_t which){
-	if (current != 0) {return;} //unstable -- wait for things to settle
+	if ((current & _BV(which)) != 0) {return;} //unstable -- wait for things to settle
 	if ((change & _BV(which)) == 0){return;} //no change
 	//Pin has been changed!
 	if ((fp_button_time0 & _BV(which)) == 0){_fp_switch_pressed(which);}
 	else {_fp_switch_released(which);}
+	
 }
 
 void _fp_process_switches(){
+	//Debounce Logic
 	uint8_t current = fp_button_time0 ^ fp_button_time1;
-	uint8_t change = current ^ fp_button_time2;
+	uint8_t change = fp_button_time1 ^ fp_button_time2;
+	
+	//EEPROM Logic
+	if (fp_rot_status == PRESSED){
+		fp_press_counter++;
+		if ((STATE_menu == MENU_CONTROL) && (fp_press_counter > EEPROM_HOLD_TO_SAVE_TIME)){
+			audio_beep(BRAIN_BEEPS, BRAIN_VOLUME);
+		}
+	}
+	
+	if (fp_master_status == PRESSED){
+		fp_press_counter++;
+		if (fp_press_counter == EEPROM_HOLD_TO_SAVE_TIME){
+			audio_beep(BRAIN_BEEPS, BRAIN_VOLUME);
+		}
+	}
+		
+	//Switch Logic
 	_process_switch(current, change, FP_SWITCH_A);
 	_process_switch(current, change, FP_SWITCH_B);
 	_process_switch(current, change, FP_SWITCH_C);
@@ -171,21 +216,21 @@ void _fp_process_rotary(){
 	static int16_t blanking_counter = -1;
 	
 	//Software blank rotary dial in menu navigation mode
-	if ((STATE_menu == MENU_OUTPUT) || (STATE_menu == MENU_CONTROL) || (STATE_menu == MENU_CONSOLE)) {
+	if ((STATE_menu == MENU_STARTUP) || (STATE_menu == MENU_OUTPUT) || (STATE_menu == MENU_CONTROL) || (STATE_menu == MENU_CONSOLE)) {
 		if (blanking_counter >= 0){
 			blanking_counter++;
 			quad_up(); quad_down(); //clear state changes during blanking period
 			if (blanking_counter > 500){blanking_counter = -1;}
 		}
 		else {
-			if (quad_up()) {blanking_counter = 0; brain_menu_change(QUAD_UP);}
-			if (quad_down()) {blanking_counter = 0; brain_menu_change(QUAD_DOWN);}
+			if (quad_up()) {blanking_counter = 0; brain_rotary_change(QUAD_UP);}
+			if (quad_down()) {blanking_counter = 0; brain_rotary_change(QUAD_DOWN);}
 		}		
 	}
 	//Use full dial resolution in adjustment mode
 	else {
-		if (quad_up()) {brain_menu_change(QUAD_UP);}
-		if (quad_down()) {brain_menu_change(QUAD_DOWN);}
+		if (quad_up()) {brain_rotary_change(QUAD_UP);}
+		if (quad_down()) {brain_rotary_change(QUAD_DOWN);}
 	}	
 }
 
@@ -196,6 +241,7 @@ void _fp_process_rotary(){
 //#############################################################
 
 void service_fp(){	
+	
 	uint8_t fp_channel_mask = STATE_power_channels << 1;
 	//LEDs
 	if (STATE_power_output == DISABLE){
@@ -222,7 +268,6 @@ void service_fp(){
 			fp_updown = -1 * fp_updown;
 		}
 	}
-	
 	//SWITCHes
 	_fp_read_switches();
 	_fp_process_switches();

@@ -3,7 +3,7 @@
 
 	//TOUCH COMMANDS
 	#define LCD_TOUCH_BUFFER_LEN 6
-	volatile uint8_t lcd_touch_buffer[LCD_TOUCH_BUFFER_LEN];
+	volatile uint8_t lcd_touch_buffer[LCD_TOUCH_BUFFER_LEN+1];
 	
 
 	volatile uint8_t lcd_last_touch_command;

@@ -17,11 +17,14 @@
 //#############################################################
 
 void init_lcd_console(){
-	//ensure that string termination is present in the beginning for blank lines
+	char* line_buffer;
+	//Load the command bytes into the console buffer
 	for(uint8_t i=0;i<LCD_CONSOLE_NUM_ROWS;i++){
-		lcd_console[i][0] = 0;
+		line_buffer = lcd_console[i];
+		line_buffer[0] = '8'; line_buffer[1]='8'; line_buffer[2]=' '; line_buffer[4]=' '; line_buffer[5]='"'; line_buffer[6]='"';		
 		lcd_buffer_dirty[i] = false;
 	}
+	//Init state
 	lcd_console_head = 0;
 }
 
@@ -30,15 +33,13 @@ void init_lcd_console(){
 //#############################################################
 
 void lcd_console_write(char* theString){
-	uint8_t head = lcd_console_head;
+	int8_t head = (int8_t)lcd_console_head;
 	char* line_buffer = lcd_console[lcd_console_head];
-	//Command
-	line_buffer[0] = '8'; line_buffer[1]='8'; line_buffer[2]=' '; line_buffer[4]=' '; line_buffer[5]='"';
 	//Destination
 	for(uint8_t i=0;i<LCD_CONSOLE_NUM_ROWS;i++){
 		lcd_console[head][3] = 0x31 + i; //id of static control (Row) to write to 
-		head++;
-		if(head >= LCD_CONSOLE_NUM_ROWS){head = 0;}
+		head--;
+		if(head < 0){head = LCD_CONSOLE_NUM_ROWS-1;}
 	}	
 	//Content
 	for (uint8_t i=0; i<LCD_CONSOLE_NUM_COLS; i++){
@@ -49,7 +50,8 @@ void lcd_console_write(char* theString){
 		}
 		line_buffer[6+i] = theString[i];
 	}
-	lcd_buffer_dirty[lcd_console_head] = true;
+	//Dirty all rows (so all rows get printed to screen)
+	for (uint8_t i=0; i<LCD_CONSOLE_NUM_ROWS; i++){lcd_buffer_dirty[i] = true;}	
 	//Move row pointer
 	lcd_console_head++;
 	if (lcd_console_head >= LCD_CONSOLE_NUM_ROWS){lcd_console_head = 0;}

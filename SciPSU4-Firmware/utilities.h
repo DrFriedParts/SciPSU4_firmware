@@ -45,6 +45,8 @@ typedef uint8_t boolean;
 #define false 	0
 #define ENABLE	42
 #define DISABLE 41
+#define PRESSED 42
+#define RELEASED 41
 	
 /* Binary constant generator macro
    By Tom Torfs - donated to the public domain

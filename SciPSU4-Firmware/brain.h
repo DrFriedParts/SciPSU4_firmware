@@ -22,6 +22,9 @@
 		#define MENU_DIAL_C 39
 		#define MENU_DIAL_D 40
 		
+		#define BRAIN_BEEPS 1
+		#define BRAIN_VOLUME 100
+		
 	//GLOBAL STATE
 		uint8_t STATE_power_output; //Master Output Mute Status: ENABLE or DISABLE
 		uint8_t STATE_power_channels; //Channel map: B8(0000DCBA), ex. bit B=0 channel B disabled, B=1 channel B output (possibly, gated by master) enabled
@@ -29,10 +32,7 @@
 
 	//FUNCTIONS
 		void init_brain();
-		void brain_debug1();
-		void brain_debug2();
-		void brain_debug3();
-		void brain_debug4();
+		void brain_debug();
 		
 		void brain_power(uint8_t which);
 		void brain_power_reset();
@@ -41,13 +41,14 @@
 		void brain_button_pressed();
 		
 		void brain_menu_load(uint8_t which_menu);
-		void brain_menu_change(uint8_t which_way);
+		void brain_rotary_change(uint8_t which_way);
 		
 		void brain_menu_output();
 		void brain_menu_output_detail(uint8_t which_detail);
 		
 		void brain_menu_control();
 		void brain_menu_control_dial(uint8_t which_channel);
+		void brain_menu_control_dial_select(uint8_t which_one);
 		
 		void brain_menu_console();
 		void brain_menu_update();

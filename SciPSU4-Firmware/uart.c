@@ -71,7 +71,7 @@ void init_uart(USART_t* which, uint8_t baud_rate){
 			//BSEL = 0x417; BSCALE = -6; error = 0.01%
 			//BSEL = 0x453; BSCALE = -6; fbaud = 115.212k @ 32MHz
 			which->BAUDCTRLB = 0xA4; //write to BAUDCTRLB first, updated on write to A
-			which->BAUDCTRLA = 0x2E; //0x17; = 8.44uS = 118kHz		
+			which->BAUDCTRLA = 0x32; //0x17; = 8.44uS = 118kHz		
 		}
 	//Config USART Module
 		which->CTRLA = 0x00; //Current driver does not enable any interrupts

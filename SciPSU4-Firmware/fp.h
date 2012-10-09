@@ -17,6 +17,9 @@
 		uint8_t fp_counter; //used to implement standby dimming
 		uint8_t fp_counter2; //used to implement pulsing master LED
 		uint8_t fp_updown; //used to implement pulsing master LED
+		uint16_t fp_press_counter; //used to time the rotary switch's button pressed length
+		uint8_t fp_master_status; //master switch status (PRESSED, RELEASED)
+		uint8_t fp_rot_status; //rotary switch status (PRESSED, RELEASED)
 	
 	//BUTTON STATE
 		uint8_t fp_button_time0;

@@ -16,7 +16,10 @@
 //## INITIALIZATION ROUTINE
 //#############################################################
 
-void init_lcd_touch(){}
+void init_lcd_touch(){
+	lcd_last_touch_command = LCD_TOUCH_NONE;
+	lcd_touch_buffer[LCD_TOUCH_BUFFER_LEN] = 0; //string termination to help with debug printing of the buffer	
+}
 
 //#############################################################
 //## API
@@ -41,11 +44,12 @@ uint8_t lcd_get_touch(){
 	
 void lcd_set_touch(uint8_t latest){
 	//Rotate buffer
-	for (uint8_t i=0;i<LCD_TOUCH_BUFFER_LEN-1;i++){lcd_touch_buffer[i+1] = lcd_touch_buffer[i];}
+	for (uint8_t i=0;i<LCD_TOUCH_BUFFER_LEN-1;i++){lcd_touch_buffer[LCD_TOUCH_BUFFER_LEN-1-i] = lcd_touch_buffer[LCD_TOUCH_BUFFER_LEN-2-i];}
 	//Add to front (0-index)
 	lcd_touch_buffer[0] = latest;
+
 	//Analyze (remember reverse order)
-		lcd_last_touch_command = LCD_TOUCH_NONE;
+
 	//Top Menu Navigation
 		if ((lcd_touch_buffer[0]==0x0D)&&(lcd_touch_buffer[1]=='2')&&(lcd_touch_buffer[2]=='1')&&(lcd_touch_buffer[3]=='P')&&(lcd_touch_buffer[4]=='Z')&&(lcd_touch_buffer[5]=='T')){lcd_last_touch_command=LCD_TOUCH_OUTPUT;return;}
 		if ((lcd_touch_buffer[0]==0x0D)&&(lcd_touch_buffer[1]=='3')&&(lcd_touch_buffer[2]=='1')&&(lcd_touch_buffer[3]=='P')&&(lcd_touch_buffer[4]=='Z')&&(lcd_touch_buffer[5]=='T')){lcd_last_touch_command=LCD_TOUCH_CONTROL;return;}
@@ -71,7 +75,7 @@ void lcd_set_touch(uint8_t latest){
 
 //Used to refresh the console
 void service_lcd_touch(){
-	if (lcd_last_touch_command==LCD_TOUCH_NONE) return; //exit if nothing's been pressed
+	if (lcd_last_touch_command==LCD_TOUCH_NONE) return; //exit if nothing has been pressed
 	switch(lcd_get_touch()){
 		
 		//MENU NAVIGATION
@@ -100,6 +104,12 @@ void service_lcd_touch(){
 			break;
 		
 		//CONTROL DIALOG WINDOW
+		case LCD_TOUCH_LEFT:
+			brain_menu_control_dial_select(LCD_TOUCH_LEFT);
+			break;
+		case LCD_TOUCH_RIGHT:
+			brain_menu_control_dial_select(LCD_TOUCH_RIGHT);
+			break;
 		case LCD_TOUCH_CLOSE_DIAL:
 			brain_menu_load(MENU_CONTROL);
 			break;

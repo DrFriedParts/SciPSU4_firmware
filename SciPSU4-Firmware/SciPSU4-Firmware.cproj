@@ -108,6 +108,12 @@
     <Compile Include="brain.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="eeprom.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="eeprom.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="fp.c">
       <SubType>compile</SubType>
     </Compile>
@@ -130,6 +136,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="lcd_touch.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pwr_adjust.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pwr_adjust.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="pwr_main.c">

@@ -47,12 +47,12 @@ inline uint8_t port_map(USART_t* port){
 //************************************************************************
 
 //Must correspond to definitions in uart.h
-SIGNAL(USARTC0_DRE_vect) {uart_transmit(&uctrl);}//TX Interrupt
-SIGNAL(USARTC0_RXC_vect) {uart_receive(&uctrl);} //RX Interrupt
-SIGNAL(USARTC1_DRE_vect) {uart_transmit(&udata);}//TX Interrupt
-SIGNAL(USARTC1_RXC_vect) {uart_receive(&udata);} //RX Interrupt
-SIGNAL(USARTF1_DRE_vect) {uart_transmit_lcd(&ulcd);}//TX Interrupt
-SIGNAL(USARTF1_RXC_vect) {uart_receive_lcd(&ulcd);} //RX Interrupt
+ISR(USARTC0_DRE_vect) {uart_transmit(&uctrl);}//TX Interrupt
+ISR(USARTC0_RXC_vect) {uart_receive(&uctrl);} //RX Interrupt
+ISR(USARTC1_DRE_vect) {uart_transmit(&udata);}//TX Interrupt
+ISR(USARTC1_RXC_vect) {uart_receive(&udata);} //RX Interrupt
+ISR(USARTF1_DRE_vect) {uart_transmit_lcd(&ulcd);}//TX Interrupt
+ISR(USARTF1_RXC_vect) {uart_receive_lcd(&ulcd);} //RX Interrupt
 	
 //MAKE SURE TO INIT UART FIRST
 void init_uart_buffers(){
@@ -126,6 +126,8 @@ void inline uart_transmit_lcd(USART_t* port){
 			default:
 				//Payload bytes -- send to LCD
 				if (toSend == 0x0D) {lcd_flow_control = LCD_BUSY;}
+				uart_enqueue(&udata, '`'); //xxx - echo to data port
+				uart_enqueue(&udata, toSend); //xxx - echo to data port
 				port->DATA = toSend;
 				break;
 		}				
@@ -153,11 +155,10 @@ void inline uart_receive_lcd(USART_t* port){
 	//keep receiving until data register is empty or incoming queue is full
 	while (((port->STATUS & _BV(7)) == B8(10000000)) && (uart_icount(port) < MAX_IBUFFER_LEN)){
 		incomingByte = port->DATA;
-		uart_enqueue(&udata, incomingByte); //echo to data port
+		uart_enqueue(&udata, incomingByte); //xxx - echo to data port
 		if (incomingByte == 0x0D){
 			switch(lcd_flow_type){				
-				case LCD_MACRO:
-					uart_enqueue(&udata,'+');uart_enqueue(&udata,lcd_touch_buffer[0]);uart_enqueue(&udata,lcd_touch_buffer[1]);
+				case LCD_MACRO:					
 					if (lcd_end_macro()){ //look for '~ macro terminator sequence
 						lcd_flow_control = LCD_DONE_MACRO;
 					}

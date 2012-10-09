@@ -20,6 +20,29 @@
 void init_lcd(){
 	lcd_flow_control = LCD_BUSY; //Wait for LCD to bootup -- queue all commands prior to start
 	lcd_flow_type = LCD_COMMAND;
+	lcd_flow_reboot = LCD_ENABLED;
+}
+
+//Reboot the LCD because it f's up a lot due to its lack of correctly implemented flow-control.
+void lcd_reboot(){
+	//flush command buffer
+	uart_rxbuffer_disable(&ulcd);
+	uart_txbuffer_disable(&ulcd);
+	init_uart_obuffer(&ulcd);
+	init_uart_ibuffer(&ulcd);
+	uart_rxbuffer_enable(&ulcd);
+	uart_txbuffer_enable(&ulcd);
+	lcd_flow_control = LCD_READY; //unlock if stuck
+	//state recovery
+	lcd_flow_reboot = LCD_REBOOT; //suppress normal output from OS (dropped silently)
+	//transmit flush to LCD
+	uart_enqueue(&ulcd, LCD_COMMAND);
+	uart_enqueue_string(&ulcd, "\r"); //transmit \r to terminate anything currently in the buffer
+	//send reboot commands
+	uart_enqueue(&ulcd, LCD_COMMAND);
+	uart_enqueue_string(&ulcd, "RESET\r");
+	//state recovery
+	lcd_flow_reboot = LCD_REBOOT;
 }
 
 //#############################################################
@@ -96,26 +119,35 @@ void lcd_d(uint8_t mode){
 
 //Only supports RUN (capital) and 31 (PLAY command as number) for detecting macros
 void lcd_command(char* theCommand){
-	uart_enqueue(&ulcd, LCD_COMMAND);
-	uart_enqueue_string(&ulcd, theCommand);
-	uart_enqueue(&ulcd, 0x0D); //command terminator
+	if ((lcd_flow_reboot == LCD_ENABLED)&&(uart_count(&ulcd)<MAX_BUFFER_LEN-100)){
+		uart_enqueue(&ulcd, LCD_COMMAND);
+		uart_enqueue_string(&ulcd, theCommand);
+		uart_enqueue(&ulcd, 0x0D); //command terminator
+	}		
 }
 
 void lcd_macro(char* theCommand){
-	//Command Header
-	uart_enqueue(&ulcd, LCD_MACRO);
-	//Command String
-	uart_enqueue_string(&ulcd, theCommand);
-	//Command Footer (terminator)
-	uart_enqueue(&ulcd, 0x0D);
+	if ((lcd_flow_reboot == LCD_ENABLED)&&(uart_count(&ulcd)<MAX_BUFFER_LEN-100)){
+		//Command Header
+		uart_enqueue(&ulcd, LCD_MACRO);
+		//Command String
+		uart_enqueue_string(&ulcd, theCommand);
+		//Command Footer (terminator)
+		uart_enqueue(&ulcd, 0x0D);
+	}		
 }	
 
+//Don't forget to end theCommand with a SPACE!
+//--it's that way to support negation
+//--Positive example: "75 1 "
+//--Negative example: "75 1 -" 
 void lcd_update(char* theCommand, char* theValue){
-	uart_enqueue(&ulcd, LCD_COMMAND);
-	uart_enqueue_string(&ulcd, theCommand);
-	uart_enqueue(&ulcd, ' ');
-	uart_enqueue_string(&ulcd, theValue);
-	uart_enqueue(&ulcd, 0x0D); //command terminator
+	if ((lcd_flow_reboot == LCD_ENABLED)&&(uart_count(&ulcd)<MAX_BUFFER_LEN-100)){
+		uart_enqueue(&ulcd, LCD_COMMAND);
+		uart_enqueue_string(&ulcd, theCommand);
+		uart_enqueue_string(&ulcd, theValue);
+		uart_enqueue(&ulcd, 0x0D); //command terminator
+	}	
 }
 
 
@@ -132,6 +164,26 @@ void service_lcd(){
 	if (lcd_flow_control != LCD_READY){led_on(LED_1);}
 	else {led_off(LED_1);}
 	
+	//Reboot logic
+	switch(lcd_flow_reboot){
+		case LCD_ENABLED:
+			//for efficiency test this case first (since it is normal case)
+			break;
+		case LCD_REBOOT:
+			decimator = 0;
+			lcd_flow_reboot = LCD_BOOTING;
+			break;
+		case LCD_BOOTING:
+			decimator++;
+			if (decimator >= 4999){
+				decimator = 0;
+				lcd_flow_reboot = LCD_ENABLED;
+				STATE_menu = MENU_STARTUP;
+			}
+			break;
+	}
+	
+	//Command processing logic
 	switch(lcd_flow_control){
 		case LCD_DONE_COMMAND:
 			if (lcd_flow_type == LCD_COMMAND){lcd_flow_control = LCD_READY;}
