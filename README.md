@@ -37,14 +37,6 @@ Jonathan Friedman, PhD
 
 ## To Do
 
-### Main Power
-1. Calibrate Negative Voltage
-2. Calibrate Negative Current
-
-### Adjustable Channels
-1. SPI driver for Resistors
-2. EEPROM storage of changes
-
 ### Misc.
 1. Fans
 1. Thermocouple
