@@ -1,0 +1,84 @@
+verbose off
+
+'************** Startup5.ezm ********************************
+'-- DEBUGGING VERSION -- SETS SERIAL COMM TO CDC (USB SERIAL PORT)'
+'***********************************************************
+
+'THIS MACRO IS AUTOMATICALLY RUN AT POWERUP AND RESET
+
+'**********************
+' Draw Startup Screen *
+'**********************
+
+
+cls black
+image 0 0 1 "chlogo2.gif"
+font neuro48
+color 160
+xy 80 60
+print "SciPSU"
+color 25
+print "4"
+
+font SANS24
+color 160
+xy 298 190
+print 66	'Print Firmware Version Number	
+print "F"	'Print File Structure  Release 
+xy 330 210
+print "0213.2"  'LCD Firmware updated 2/2013; Version 2
+
+font squine48
+color 4
+xy 50 160
+print "USB CDC MODE"
+
+
+'********************
+'* Set Command Port *
+'********************
+
+CFGIO 4 serial2_tx 115200 N81
+CFGIO 3 serial2_rx 115200 N81
+
+CMD CDC 'Configure Command Port to USB CDC
+
+
+'******************
+'* ezLCD defaults *
+'******************
+'***********************************
+'Changing below themes will cause manual and provided examples to function
+'differently. Add your own themes instead of changing these!
+'setup  fonts for themes 0 - 7
+fontw 0 serif24
+fontw 1 serif24
+fontw 2 serif24
+fontw 3 serif24
+fontw 4 serif24
+fontw 5 serif24
+fontw 6 serif24
+fontw 7 serif24
+'Themes apply towards all widgets such as Buttons
+'A = Theme Index
+'B = EmbossDkColor      Dark Emboss color used for 3-D effect of objects
+'C = EmbossLtColor      Light Emboss color used for 3-D effect of objects 
+'D = Text_color0        For text, Useage may vary from one object to another, has or doesn't have focus? 
+'E = Text_color1        For text when pressed, Useage may vary from one object to another
+'F = TextColorDisabled  Color of objects that are disabled
+'G = color0             For objects, Useage may vary from one object to another, has or doesn't have focus?
+'H = color1             For objects when pressed, Useage may vary from one object to another
+'I = ColorDisabled      Used to render objects that are disabled
+'J = CommonBkColor      Used to hide objects from screen but still active
+'K = Fontw		Font associated with this theme
+'     A   B   C D E F  G  H   I J K
+theme 0   1   2 0 0 0  3  3   1 0 0
+theme 1 155 152 3 3 3  4  4   5 0 1
+theme 2   5  20 3 3 3  4  4   5 0 2
+theme 3   9   3 0 0 0  8  8   9 0 3
+theme 4   7   3 0 0 0  6  6   6 6 4
+theme 5 126 118 3 3 3 35 35  36 0 5
+theme 6 111 106 3 3 3 12 12 101 0 6
+theme 7  58  48 3 3 3 14 14  54 0 7
+
+VERBOSE ON
