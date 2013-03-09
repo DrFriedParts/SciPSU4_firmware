@@ -203,7 +203,7 @@ void brain_rotary_change(uint8_t which_way){
 //== OUTPUT Menu
 void brain_menu_output(){
 	STATE_menu = MENU_OUTPUT;
-	lcd_macro("RUN M_OUT");
+	lcd_command("31 M_OUT");
 }
 
 void brain_menu_output_detail(uint8_t which_detail){
@@ -211,13 +211,13 @@ void brain_menu_output_detail(uint8_t which_detail){
 	switch(which_detail){
 		case LCD_TOUCH_OPEN_DETAIL_AB:
 			STATE_menu = MENU_DETAIL_AB;
-			lcd_macro("RUN M_DETAIL");
+			lcd_command("31 M_DETAIL");
 			lcd_command("88 58 A");
 			lcd_command("88 59 B");
 			break;
 		case LCD_TOUCH_OPEN_DETAIL_CD:
 			STATE_menu = MENU_DETAIL_CD;
-			lcd_macro("RUN M_DETAIL");
+			lcd_command("31 M_DETAIL");
 			lcd_command("88 58 C");
 			lcd_command("88 59 D");
 			break;
@@ -230,12 +230,12 @@ void brain_menu_output_detail(uint8_t which_detail){
 
 void brain_menu_control(){
 	STATE_menu = MENU_CONTROL;
-	lcd_macro("RUN M_CTRL");
+	lcd_command("31 M_CTRL");
 }
 
 void brain_menu_control_dial(uint8_t which_channel){
 	audio_beep(BRAIN_BEEPS, BRAIN_VOLUME);
-	lcd_macro("RUN M_DIAL");
+	lcd_command("31 M_DIAL");
 	pwr_adj_channel_dirty = 0xFF; //mark all channels dirty (so load initial values)
 	switch(which_channel){
 		case LCD_TOUCH_ROW_A:
@@ -278,7 +278,7 @@ void brain_menu_control_dial_select(uint8_t which_one){
 
 void brain_menu_console(){
 	STATE_menu = MENU_CONSOLE;
-	lcd_macro("RUN M_CON");
+	lcd_command("31 M_CON");
 }
 
 //Update channel enabled indicators

@@ -13,7 +13,6 @@ verbose off
 ' Draw Startup Screen *
 '**********************
 
-
 cls black
 image 0 0 1 "chlogo2.gif"
 font neuro48

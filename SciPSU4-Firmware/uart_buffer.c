@@ -117,20 +117,10 @@ void inline uart_transmit_lcd(USART_t* port){
 	//keep loading until data register is full or outgoing queue is empty
 	while (((port->STATUS & _BV(5)) == B8(00100000)) && (uart_count(port) > 0) && (lcd_flow_control == LCD_READY)){
 		toSend = uart_dequeue(port);
-		switch(toSend){
-			case LCD_COMMAND:
-			case LCD_MACRO:
-				//Header byte just describes payload -- do not send to LCD
-				lcd_flow_type = toSend;
-				break;
-			default:
-				//Payload bytes -- send to LCD
-				if (toSend == 0x0D) {lcd_flow_control = LCD_BUSY;}
-				uart_enqueue(&udata, '`'); //xxx - echo to data port
-				uart_enqueue(&udata, toSend); //xxx - echo to data port
-				port->DATA = toSend;
-				break;
-		}				
+		if (toSend == 0x0D) {lcd_flow_control = LCD_BUSY;}
+		uart_enqueue(&udata, '`'); //xxx - echo to data port
+		uart_enqueue(&udata, toSend); //xxx - echo to data port
+		port->DATA = toSend;
 	}
 	uart_txbuffer_disable(port); //implemented this way to prevent periodic stalls that happen when uart_txbuffer isn't disabled quickly enough
 	if ((uart_count(port)>0) && (lcd_flow_control == LCD_READY)){ //...something is waiting to go out
@@ -156,19 +146,7 @@ void inline uart_receive_lcd(USART_t* port){
 	while (((port->STATUS & _BV(7)) == B8(10000000)) && (uart_icount(port) < MAX_IBUFFER_LEN)){
 		incomingByte = port->DATA;
 		uart_enqueue(&udata, incomingByte); //xxx - echo to data port
-		if (incomingByte == 0x0D){
-			switch(lcd_flow_type){				
-				case LCD_MACRO:					
-					if (lcd_end_macro()){ //look for '~ macro terminator sequence
-						lcd_flow_control = LCD_DONE_MACRO;
-					}
-					break;
-				default:
-				case LCD_COMMAND:
-					lcd_flow_control = LCD_DONE_COMMAND;
-					break;
-			}					
-		}
+		if (incomingByte == 0x0D) {lcd_flow_control = LCD_DONE_COMMAND;}
 		lcd_set_touch(incomingByte); //write to touch-command listener
 		uart_ienqueue(port, incomingByte);
 	}

@@ -5,7 +5,6 @@
 		//Place all Operating states lower than 0x90
 		#define LCD_BUSY 0x4E
 		#define LCD_DONE_COMMAND 0x4F
-		#define LCD_DONE_MACRO 0x50
 		#define LCD_READY 0x52
 		//Place all Booting states higher than 0x90
 		#define LCD_BOOTING 0x90
@@ -16,17 +15,9 @@
 		#define LCD_STANDBY 32
 		#define LCD_DISABLED 33
 		
-		#define LCD_COMMAND 0xFA
-		#define LCD_MACRO 0xFE
-		
-		
-		
-	
-		
 	//UART BUFFER STATE		
 		volatile uint8_t lcd_flow_control;
-		volatile uint8_t lcd_flow_reboot; //recovery mechanism
-		volatile uint8_t lcd_flow_type;  
+		volatile uint8_t lcd_flow_reboot; //recovery mechanism 
 
 	//OUTPUT & CONTROL SCREENS
 		void lcd_a(uint8_t mode);
@@ -37,7 +28,6 @@
 	//FUNCTIONS
 		void init_lcd();
 		void lcd_command(char* theCommand);
-		void lcd_macro(char* theCommand);
 		void lcd_update(char* theCommand, char* theValue);
 		void lcd_reboot();
 		void service_lcd();

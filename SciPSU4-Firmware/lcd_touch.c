@@ -29,11 +29,6 @@ void init_lcd_touch(){
 //## TOUCHSCREEN COMMAND BUFFER
 //#############################################################
 
-boolean lcd_end_macro(){
-if ((lcd_touch_buffer[0]==0x7E)&&(lcd_touch_buffer[1]==0x27)){return true;}
-	else {return false;}
-}
-
 /// Returns the code for the last thing touched by user
 /** Clears the touch history on read*/
 uint8_t lcd_get_touch(){

@@ -34,6 +34,5 @@
 		void init_lcd_touch();
 		uint8_t lcd_get_touch();
 		void lcd_set_touch(uint8_t latest);
-		boolean lcd_end_macro();
 		void service_lcd_touch();
 #endif
