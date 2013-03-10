@@ -35,6 +35,8 @@
 		void brain_debug();
 		
 		void brain_power(uint8_t which);
+		void brain_power_on(uint8_t which);
+		void brain_power_off(uint8_t which);
 		void brain_power_reset();
 		void brain_power_master();
 		

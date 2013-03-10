@@ -64,22 +64,37 @@ void brain_power_reset(){
 //Toggle power state and effect the new behavior
 //Toggle adjustable and fixed channels together
 void brain_power(uint8_t which){
-	//Toggle channel state
-		STATE_power_channels ^= _BV(which); 
+	//Detect and then do the opposite (e.g. toggle state)
 	//Channel disabled
 		if ((STATE_power_channels & _BV(which))==0){		
-			pwr_main_off(which);
-			pwr_adj_off(which);
-			fp_led_disable(which);
+			brain_power_on(which);
 		}	
 	//Channel enabled
 		else {
-			fp_led_enable(which);
-			if (STATE_power_output == ENABLE) {pwr_main_on(which); pwr_adj_on(which);}
-			if (STATE_power_output == DISABLE) {}		
+			brain_power_off(which);
 		}	
+}
+
+void brain_power_off(uint8_t which){
+	//Update state
+	STATE_power_channels &= ~_BV(which);
+	//Channel disabled
+	pwr_main_off(which);
+	pwr_adj_off(which);
+	fp_led_disable(which);
 	//Update LCD
-		brain_menu_update();
+	brain_menu_update();
+}
+
+void brain_power_on(uint8_t which){
+	//Update state
+	STATE_power_channels |= _BV(which);
+	//Channel enabled
+	fp_led_enable(which);
+	if (STATE_power_output == ENABLE) {pwr_main_on(which); pwr_adj_on(which);}
+	if (STATE_power_output == DISABLE) {}	
+	//Update LCD
+	brain_menu_update();
 }
 
 void brain_power_master(){

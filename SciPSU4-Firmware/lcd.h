@@ -30,5 +30,6 @@
 		void lcd_command(char* theCommand);
 		void lcd_update(char* theCommand, char* theValue);
 		void lcd_reboot();
+		void lcd_recover();
 		void service_lcd();
 #endif

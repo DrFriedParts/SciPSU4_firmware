@@ -22,8 +22,7 @@ void init_lcd(){
 	lcd_flow_reboot = LCD_ENABLED;
 }
 
-//Reboot the LCD because it f's up a lot due to its lack of correctly implemented flow-control.
-void lcd_reboot(){
+void lcd_reboot_state(){
 	//flush command buffer
 	uart_rxbuffer_disable(&ulcd);
 	uart_txbuffer_disable(&ulcd);
@@ -36,11 +35,23 @@ void lcd_reboot(){
 	lcd_flow_reboot = LCD_REBOOT; //suppress normal output from OS (dropped silently)
 	//transmit flush to LCD
 	uart_enqueue_string(&ulcd, "\r"); //transmit \r to terminate anything currently in the buffer
+}
+	
+//Reboot the LCD completely (return to splash screen)
+void lcd_reboot(){
+	lcd_reboot_state();
 	//send reboot commands
 	uart_enqueue_string(&ulcd, "RESET\r");
 	//state recovery
 	lcd_flow_reboot = LCD_REBOOT;
 }
+
+//Recover from LCD error (restore to last used main menu screen)
+void lcd_recover(){
+	lcd_reboot_state();
+	brain_menu_load(STATE_menu);
+}
+
 
 //#############################################################
 //## SCREENS: OUTPUT STATUS
