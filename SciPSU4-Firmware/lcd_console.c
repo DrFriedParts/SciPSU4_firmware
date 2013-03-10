@@ -31,7 +31,10 @@ void init_lcd_console(){
 	lcd_console_head = 0;
 	STATE_lcd_console = LCD_CONSOLE_STATE_IDLE;
 	lcd_console_set_value[4] = 0; //add string termination character
-}
+	lcd_console_incoming_byte[0] = '>';
+	lcd_console_incoming_byte[1] = ' ';
+	lcd_console_incoming_byte[3] = 0;
+}	
 
 //#############################################################
 //## HOST API SUPPORT FUNCTIONS
@@ -52,48 +55,40 @@ uint8_t lcd_console_pwr_adj(uint8_t channel, uint8_t command){
 	switch(channel){
 		case CHANNEL_A:
 			switch(command){
-				case 'm':
-				case 'M':
+				case LCD_CONSOLE_CMD_ADJUST_MAX:
 					return 0;
 				break;
-				case 's':
-				case 'S':
+				case LCD_CONSOLE_CMD_ADJUST_SET:
 					return 1;
 				break;
 			}
 			break;
 		case CHANNEL_B:
 			switch(command){
-				case 'm':
-				case 'M':
+				case LCD_CONSOLE_CMD_ADJUST_MAX:
 				return 2;
 				break;
-				case 's':
-				case 'S':
+				case LCD_CONSOLE_CMD_ADJUST_SET:
 				return 3;
 				break;
 			}
 			break;
 		case CHANNEL_C:
 			switch(command){
-				case 'm':
-				case 'M':
+				case LCD_CONSOLE_CMD_ADJUST_MAX:
 				return 4;
 				break;
-				case 's':
-				case 'S':
+				case LCD_CONSOLE_CMD_ADJUST_SET:
 				return 5;
 				break;
 			}
 			break;
 		case CHANNEL_D:
 			switch(command){
-				case 'm':
-				case 'M':
+				case LCD_CONSOLE_CMD_ADJUST_MAX:
 				return 6;
 				break;
-				case 's':
-				case 'S':
+				case LCD_CONSOLE_CMD_ADJUST_SET:
 				return 7;
 				break;
 			}
@@ -138,61 +133,61 @@ void lcd_console_meter(uint8_t channel, uint8_t side){
 		break; //Channel A
 		
 		case CHANNEL_B:
-		switch(side){
-			case LCD_CONSOLE_CMD_MAIN_POS:
-			switch(lcd_console_value_1){
-				case 'v':
-				case 'V':
-				adc_data(4, VOLTAGE_POS, lcd_console_meter_value); //B V+
+			switch(side){
+				case LCD_CONSOLE_CMD_MAIN_POS:
+				switch(lcd_console_value_1){
+					case 'v':
+					case 'V':
+					adc_data(4, VOLTAGE_POS, lcd_console_meter_value); //B V+
+					break;
+					case 'i':
+					case 'I':
+						adc_data(5, CURRENT_HI_RES, lcd_console_meter_value); //B I+
+					break;
+				}//Pos: V or I
 				break;
-				case 'i':
-				case 'I':
-					adc_data(5, CURRENT_HI_RES, lcd_console_meter_value); //B I+
+				case LCD_CONSOLE_CMD_MAIN_NEG:
+				switch(lcd_console_value_1){
+					case 'v':
+					case 'V':
+						adc_data(6, VOLTAGE_NEG, lcd_console_meter_value); //B V-
+					break;
+					case 'i':
+					case 'I':
+						adc_data(7, CURRENT_HI_RES, lcd_console_meter_value); //B I-
+					break;
+				}//Neg: V or I
 				break;
-			}//Pos: V or I
-			break;
-			case LCD_CONSOLE_CMD_MAIN_NEG:
-			switch(lcd_console_value_1){
-				case 'v':
-				case 'V':
-					adc_data(6, VOLTAGE_NEG, lcd_console_meter_value); //B V-
-				break;
-				case 'i':
-				case 'I':
-					adc_data(7, CURRENT_HI_RES, lcd_console_meter_value); //B I-
-				break;
-			}//Neg: V or I
-			break;
-		}//side
+			}//side
 		break; //Channel B
 		
 		case CHANNEL_C:
-		switch(side){
-			case LCD_CONSOLE_CMD_MAIN_POS:
-			switch(lcd_console_value_1){
-				case 'v':
-				case 'V':
-					adc_data(8, VOLTAGE_POS, lcd_console_meter_value); //C V+
+			switch(side){
+				case LCD_CONSOLE_CMD_MAIN_POS:
+				switch(lcd_console_value_1){
+					case 'v':
+					case 'V':
+						adc_data(8, VOLTAGE_POS, lcd_console_meter_value); //C V+
+					break;
+					case 'i':
+					case 'I':
+						adc_data(9, CURRENT_HI_RES, lcd_console_meter_value); //C I+
+					break;
+				}//Pos: V or I
 				break;
-				case 'i':
-				case 'I':
-					adc_data(9, CURRENT_HI_RES, lcd_console_meter_value); //C I+
+				case LCD_CONSOLE_CMD_MAIN_NEG:
+				switch(lcd_console_value_1){
+					case 'v':
+					case 'V':
+						adc_data(10, VOLTAGE_NEG, lcd_console_meter_value); //C V-
+					break;
+					case 'i':
+					case 'I':
+						adc_data(11, CURRENT_HI_RES, lcd_console_meter_value); //C I-
+					break;
+				}//Neg: V or I
 				break;
-			}//Pos: V or I
-			break;
-			case LCD_CONSOLE_CMD_MAIN_NEG:
-			switch(lcd_console_value_1){
-				case 'v':
-				case 'V':
-					adc_data(10, VOLTAGE_NEG, lcd_console_meter_value); //C V-
-				break;
-				case 'i':
-				case 'I':
-					adc_data(11, CURRENT_HI_RES, lcd_console_meter_value); //C I-
-				break;
-			}//Neg: V or I
-			break;
-		}//side
+			}//side
 		break; //Channel C
 		
 		case CHANNEL_D:
@@ -256,6 +251,13 @@ void lcd_console_write(char* theString){
 	if (lcd_console_head >= LCD_CONSOLE_NUM_ROWS){lcd_console_head = 0;}
 }
 
+/*
+	Prints console prompt followed by this byte
+*/
+void lcd_console_write_byte(uint8_t theByte){
+	lcd_console_incoming_byte[2] = theByte;
+	lcd_console_write(lcd_console_incoming_byte);
+}	
  
 
 //#############################################################
@@ -267,11 +269,10 @@ void service_lcd_console(){
 	//Process command buffer
 	while (uart_icount(&uctrl) > 0){
 		uint8_t incoming = uart_idequeue(&uctrl);
-		lcd_console_write("Byte received"); //xxx
+		lcd_console_write_byte(incoming);
 		switch(STATE_lcd_console){
 			
 			case LCD_CONSOLE_STATE_IDLE:
-				lcd_console_write("IDLE"); //xxx
 				switch(incoming){
 					case 'a':
 					case 'A':
@@ -297,7 +298,6 @@ void service_lcd_console(){
 			break;
 			
 			case LCD_CONSOLE_STATE_COMMAND:
-				lcd_console_write("CMD"); //xxx
 				switch(incoming){
 					case 'z':
 					case 'Z':
@@ -332,7 +332,6 @@ void service_lcd_console(){
 			break;
 			
 			case LCD_CONSOLE_STATE_VALUE_1:
-				lcd_console_write("VAL1"); //xxx
 				switch(incoming){
 					case '1':
 					case '0':
@@ -351,7 +350,6 @@ void service_lcd_console(){
 			break;
 			
 			case LCD_CONSOLE_STATE_VALUE_N:
-				lcd_console_write("VALN-1"); //xxx
 				switch(incoming){
 					case '0':
 					case '1':
@@ -374,7 +372,6 @@ void service_lcd_console(){
 			break;
 			
 			case LCD_CONSOLE_STATE_VALUE_N2:
-			lcd_console_write("VALN-2"); //xxx
 			switch(incoming){
 				case '0':
 				case '1':
@@ -402,7 +399,6 @@ void service_lcd_console(){
 			break;
 			
 			case LCD_CONSOLE_STATE_VALUE_N3:
-			lcd_console_write("VALN-3"); //xxx
 			switch(incoming){
 				case '0':
 				case '1':
@@ -430,7 +426,6 @@ void service_lcd_console(){
 			break;
 			
 			case LCD_CONSOLE_STATE_VALUE_N4:
-			lcd_console_write("VALN-4"); //xxx
 			switch(incoming){
 				case '0':
 				case '1':
@@ -458,7 +453,6 @@ void service_lcd_console(){
 			break;
 			
 			case LCD_CONSOLE_STATE_TERMINATOR_N:
-				lcd_console_write("TERM_N"); //xxx
 				switch(incoming){
 					case 0x0D:
 						lcd_console_pwr_adj_set();
@@ -471,7 +465,6 @@ void service_lcd_console(){
 			break;
 			
 			case LCD_CONSOLE_STATE_TERMINATOR_1:
-				lcd_console_write("TERM1"); //xxx
 				switch(incoming){
 					case 0x0D:
 						switch(lcd_console_value_1){

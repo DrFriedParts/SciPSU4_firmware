@@ -16,6 +16,7 @@
 		
 		char lcd_console_meter_value[12];
 		char lcd_console_set_value[5];
+		char lcd_console_incoming_byte[4];
 		
 		#define LCD_CONSOLE_STATE_IDLE 22
 		#define LCD_CONSOLE_STATE_COMMAND 23
