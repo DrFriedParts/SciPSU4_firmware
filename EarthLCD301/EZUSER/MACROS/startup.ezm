@@ -28,7 +28,7 @@ xy 298 190
 print 66	'Print Firmware Version Number	
 print "F"	'Print File Structure  Release 
 xy 330 210
-print "0213.2"  'LCD Firmware updated 2/2013; Version 2
+print "0313.3"  'LCD Firmware updated 3/2013; Version 3
 
 
 '********************
@@ -79,4 +79,4 @@ theme 5 126 118 3 3 3 35 35  36 0 5
 theme 6 111 106 3 3 3 12 12 101 0 6
 theme 7  58  48 3 3 3 14 14  54 0 7
 
-VERBOSE ON
+VERBOSE OFF
