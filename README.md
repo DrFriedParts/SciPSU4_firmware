@@ -5,6 +5,7 @@ Multi-channel Digitally-controlled low-noise power supply for scientific applica
 Demonstration project for CircuitHub, Inc.
 Jonathan Friedman, PhD
 
+# MOVED TO getscale/getscale-neurolabware/SciencePSU/SciencePSU-Firmware
 
 ## Configuration Notes
 
